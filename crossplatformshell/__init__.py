@@ -51,7 +51,12 @@ def remove(path):
     """Remove the specified path."""
     os.remove(str(path))
 
-rm = remove
+def rm(*args):
+    for path in args:
+        try:
+            os.remove(str(path))
+        except OSError:
+            pass
 
 def rmtree(path):
     """Recursively remove paths."""

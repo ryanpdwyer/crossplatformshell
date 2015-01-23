@@ -57,13 +57,18 @@ def rmtree(path):
     """Recursively remove paths."""
     shutil.rmtree(str(path))
 
-rm_rf = rmtree
+def rm_rf(path):
+    """Recursively delete directories, if they exist"""
+    try:
+        shutil.rmtree(str(path))
+    except OSError:
+        pass
 
 def read_file(filename):
     return io.open(str(filename)).read()
 
 
-def write_file(filename, string):
-    io.open(str(filename), 'w', encoding="utf-8").write(string)
+def write_file(filename, string, encoding="utf-8"):
+    io.open(str(filename), 'w', encoding=encoding).write(string)
 
 

@@ -28,7 +28,7 @@ clean-pyc:
 	find . -name '*~' -exec rm -f {} +
 
 lint:
-	flake8 crossplatformshell test
+	flake8 crossplatformshell
 
 test:
 	python setup.py test

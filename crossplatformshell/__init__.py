@@ -33,7 +33,7 @@ def new_path(path_string):
 def mkdir(*args):
     """Make a directory from the specified path"""
     for arg in args:
-        os.mkdir(str(path))
+        os.mkdir(str(arg))
 
 
 def remove(path):

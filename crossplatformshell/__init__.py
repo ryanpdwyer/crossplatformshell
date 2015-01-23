@@ -30,6 +30,22 @@ def new_path(path_string):
     return pathlib.Path(os.path.expanduser(path_string))
 
 
+def mkdir(*args):
+    """Make a directory from the specified path"""
+    for arg in args:
+        os.mkdir(str(path))
+
+
+def remove(path):
+    """Remove the specified path."""
+    os.remove(str(path))
+
+
+def rmtree(path):
+    """Recursively remove paths."""
+    shutil.rmtree(str(path))
+
+
 def copy(src_path, dst_path):
     shutil.copy(str(src_path), str(dst_path))
 
@@ -42,28 +58,12 @@ def copy_tree(src_path, dst_path):
 
 cp_r = copy_tree
 
-def mkdir(*args):
-    """Make a directory from the specified path"""
-    for arg in args:
-        os.mkdir(str(path))
-
-
-def remove(path):
-    """Remove the specified path."""
-    os.remove(str(path))
-
-
 def rm(*args):
     for path in args:
         try:
             os.remove(str(path))
         except OSError:
             pass
-
-
-def rmtree(path):
-    """Recursively remove paths."""
-    shutil.rmtree(str(path))
 
 
 def rm_rf(*args):

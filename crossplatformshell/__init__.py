@@ -42,14 +42,16 @@ def copy_tree(src_path, dst_path):
 
 cp_r = copy_tree
 
-def mkdir(path):
+def mkdir(*args):
     """Make a directory from the specified path"""
-    os.mkdir(str(path))
+    for arg in args:
+        os.mkdir(str(path))
 
 
 def remove(path):
     """Remove the specified path."""
     os.remove(str(path))
+
 
 def rm(*args):
     for path in args:
@@ -58,16 +60,20 @@ def rm(*args):
         except OSError:
             pass
 
+
 def rmtree(path):
     """Recursively remove paths."""
     shutil.rmtree(str(path))
 
-def rm_rf(path):
+
+def rm_rf(*args):
     """Recursively delete directories, if they exist"""
-    try:
-        shutil.rmtree(str(path))
-    except OSError:
-        pass
+    for path in args:
+        try:
+            os.remove(str(path))
+        except OSError:
+            pass
+
 
 def read_file(filename):
     return io.open(str(filename)).read()
@@ -75,5 +81,3 @@ def read_file(filename):
 
 def write_file(filename, string, encoding="utf-8"):
     io.open(str(filename), 'w', encoding=encoding).write(string)
-
-

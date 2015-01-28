@@ -16,9 +16,6 @@ from crossplatformshell import (new_path, copy, copy_tree, mkdir, remove,
 
 
 class TestCheckOutput(unittest.TestCase):
-    def setUp(self):
-        self.dir = new_path(tempfile.mkdtemp())
-        os.chdir(str(self.dir.absolute()))
 
     def test_output_raises_error(self):
         self.assertRaises(subprocess.CalledProcessError,
@@ -27,9 +24,6 @@ class TestCheckOutput(unittest.TestCase):
     def test_output_git_version(self):
         out = check_output([git, '--version'])[0]
         self.assertTrue('git version' in out)
-
-    def tearDown(self):
-        rmtree(self.dir)
 
 
 class TestCrossplatformshell(unittest.TestCase):

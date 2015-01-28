@@ -6,6 +6,7 @@ environment:
     - PYTHON: "C:/Python34"
 init:
   - "ECHO %PYTHON%"
+  - "git --version"
   - ps: "ls C:/Python*"
   - "git config --global user.email 'foo@example.com'"
   - "git config --global user.name 'foo'"

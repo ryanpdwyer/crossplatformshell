@@ -63,6 +63,3 @@ class TestCrossplatformshell(unittest.TestCase):
 
     def tearDown(self):
         rmtree(self.dir)
-
-
-

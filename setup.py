@@ -47,8 +47,7 @@ setup(
     # add to docs/conf.py MAGIC_MOCK, and .travis.yml 'conda install ...'
     install_requires=['pathlib'],
 
-    tests_require=['nose'],
-    test_suite='nose.collector',
+    test_suite='crossplatformshell.tests.testsuite',
     cmdclass=cmdclass,
     keywords='crossplatformshell',
     classifiers=[

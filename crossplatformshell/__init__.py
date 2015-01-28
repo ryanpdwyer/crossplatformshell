@@ -20,31 +20,58 @@ try:
 except:
     import subprocess as subprocess
 
-windows = platform.system() == 'Windows'
-
-git = 'git.cmd' if windows else 'git'
-
-# Versioneer versioning
-from ._version import get_versions
-__version__ = get_versions()['version']
-del get_versions
-
 
 def check_output(*args, **kwargs):
-    """Check_output, but prints and  Use printing=False to turn """
-    printing = kwargs.pop('printing', True)
+    """Subprocess check_output, but prints commands and output by default.
+    Also allows printing of error message for helpful debugging.
+
+    Use print_all=False to turn off all printing."""
+    print_all = kwargs.pop('print_all', None)
+    if print_all is not None:
+        print_in = print_all
+        print_out = print_all
+    else:
+        print_in = kwargs.pop('print_in', True)
+        print_out = kwargs.pop('print_out', True)
+
+    if print_in:
+        print('')
+        print(' '.join(args[0]))
 
     try:
-        out_lines = subprocess.check_output(*args, **kwargs).decode('utf-8').splitlines()
+        out_bytes = subprocess.check_output(*args, **kwargs)
+        out_lines = out_bytes.decode('utf-8').splitlines()
     except subprocess.CalledProcessError as e:
         # Wrap in try/except so that check_output can print
         raise e
 
-    if printing:
+    if print_out:
         for line in out_lines:
             print(line)
 
     return out_lines
+
+
+windows = platform.system() == 'Windows'
+
+
+def find_git_cmd(windows):
+    git = 'git'
+
+    if windows:
+        try:
+            check_output([git, '--version'])
+        except subprocess.CalledProcessError:
+            try:
+                git = 'git.cmd'
+                check_output([git, '--version'])
+            except subprocess.CalledProcessError:
+                msg = "git does not appear to be on your path."
+                raise subprocess.CalledProcessError(msg)
+
+    return git
+
+git = find_git_cmd(windows)
 
 
 def new_path(path_string):
@@ -107,3 +134,9 @@ def read_file(filename, encoding="utf-8"):
 def write_file(filename, string, encoding="utf-8"):
     with io.open(str(filename), 'w', encoding=encoding) as f:
         f.write(string)
+
+
+# Versioneer versioning
+from ._version import get_versions
+__version__ = get_versions()['version']
+del get_versions

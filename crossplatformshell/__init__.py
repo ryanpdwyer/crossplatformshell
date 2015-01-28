@@ -12,6 +12,7 @@ import io
 import os
 import shutil
 import distutils.dir_util
+import platform
 
 # Use subprocess32 if available
 try:
@@ -19,10 +20,31 @@ try:
 except:
     import subprocess as subprocess
 
+windows = platform.system() == 'Windows'
+
+git = 'git.cmd' if windows else 'git'
+
 # Versioneer versioning
 from ._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
+
+
+def check_output(*args, **kwargs):
+    """Check_output, but prints and  Use printing=False to turn """
+    printing = kwargs.pop('printing', True)
+
+    try:
+        out_lines = subprocess.check_output(*args, **kwargs).decode('utf-8').splitlines()
+    except subprocess.CalledProcessError as e:
+        # Wrap in try/except so that check_output can print
+        raise e
+
+    if printing:
+        for line in out_lines:
+            print(line)
+
+    return out_lines
 
 
 def new_path(path_string):
@@ -58,6 +80,7 @@ def copy_tree(src_path, dst_path):
 
 cp_r = copy_tree
 
+
 def rm(*args):
     for path in args:
         try:
@@ -75,9 +98,12 @@ def rm_rf(*args):
             pass
 
 
-def read_file(filename):
-    return io.open(str(filename)).read()
+def read_file(filename, encoding="utf-8"):
+    with io.open(str(filename), encoding=encoding) as f:
+        text = f.read()
+    return text
 
 
 def write_file(filename, string, encoding="utf-8"):
-    io.open(str(filename), 'w', encoding=encoding).write(string)
+    with io.open(str(filename), 'w', encoding=encoding) as f:
+        f.write(string)

@@ -80,7 +80,7 @@ def new_path(path_string):
 
 
 def mkdir(*args):
-    """Make a directory from the specified path"""
+    """Make directories for the specified paths."""
     for arg in args:
         os.mkdir(str(arg))
 
@@ -109,6 +109,8 @@ cp_r = copy_tree
 
 
 def rm(*args):
+    """Delete files, if they exist.
+    Fail silently if a file doesn't exist."""
     for path in args:
         try:
             os.remove(str(path))
@@ -117,10 +119,10 @@ def rm(*args):
 
 
 def rm_rf(*args):
-    """Recursively delete directories, if they exist"""
+    """Recursively delete directories, if they exist."""
     for path in args:
         try:
-            os.remove(str(path))
+            shutil.rmtree(str(path))
         except OSError:
             pass
 

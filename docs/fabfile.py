@@ -24,7 +24,7 @@ fab clean      Delete the contents of the _build/ directory
 fab html       Create sphinx documentation as stand-alone HTML files
 fab html_full  Convert the ipynb files in the ../freqdemod/docs
                dir to HTML files, then create sphinx documentation
-               as stand-alone HTML files")
+               as stand-alone HTML files
 open           Open the HTML documentation in a web browser
 ====================================================================""")
 
